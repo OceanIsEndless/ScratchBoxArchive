@@ -2,8 +2,7 @@ name: Download URLs Every Hour
 
 on:
   schedule:
-    # This cron expression will run the workflow every hour on the hour
-    - cron: '0 * * * *'
+    - cron: '0 * * * *' # Run every hour
   workflow_dispatch: # Allow manual triggers
 
 jobs:
@@ -18,27 +17,31 @@ jobs:
     # Step 2: Download files from URLs and save to a timestamped folder
     - name: Download files
       run: |
-        # Ensure we're in the right directory (repository root)
+        # Print current working directory to ensure we're in the repo
         echo "Current working directory: $(pwd)"
         
+        # Ensure we are in the repository root
+        repo_dir="$(pwd)"
+        echo "Repository directory is: $repo_dir"
+        
         # Create a unique folder name based on current timestamp
-        folder_name="downloaded_content_$(date +'%Y%m%d_%H%M%S')"
+        folder_name="$repo_dir/downloaded_content_$(date +'%Y%m%d_%H%M%S')"
+        echo "Creating folder: $folder_name"
+        
+        # Create the folder inside the repo directory
         mkdir -p "$folder_name"
-        echo "Created folder: $folder_name"
-
+        
         # Define URLs
-        urls=("https://example.com/index.html")
-
+        urls=("https://example.com/index.html" "https://scratchbox.grady.link/explore")
+        
         # Download each URL into the timestamped folder
         for url in "${urls[@]}"; do
           filename=$(basename "$url")
           echo "Downloading: $url"
-          
-          # Debugging: Show the output of curl
           curl -L -o "$folder_name/$filename" "$url" && echo "Downloaded $filename successfully" || echo "Failed to download $filename"
         done
 
-    # Step 3: Commit and push downloaded files (force add files)
+    # Step 3: Commit and push downloaded files
     - name: Commit and push files
       run: |
         # Configure Git
@@ -46,16 +49,16 @@ jobs:
         git config --global user.email "github-actions@github.com"
         
         # Check if the folder exists and files were downloaded
-        echo "Checking folder: $(pwd)/$folder_name"
-
-        # Forcefully add all files in the new folder (even if untracked or ignored)
+        echo "Checking folder: $folder_name"
+        
+        # Add all files forcefully (in the correct path)
         git add -f "$folder_name"/*
-
-        # Show the files being staged for commit
+        
+        # Show the files being staged
         echo "Staging files:"
         git ls-files --stage
         
-        # Commit and push if changes are detected
+        # Commit and push only if there are changes
         git diff --cached --quiet || (git commit -m "Add downloaded files to $folder_name" && git push)
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
