@@ -17,20 +17,50 @@ jobs:
     - name: Fetch and Zip
       run: |
         # Create a directory to store fetched files
-        mkdir fetched_files
+        mkdir api
         
         # Download the files (replace with your URLs)
-        curl -O https://example.com/index.html
+        curl -o projects.json https://scratchbox.grady.link/api/projects
+
+        # Get the project IDs from the JSON
+        ids=$(jq -r '.[].id' projects.json)
+        echo "Extracted IDs: $ids"
         
-        # Move files into the fetched_files directory
-        mv index.html fetched_files/
+        # Move projects.json into the api directory
+        mv projects.json api/
+
+        # Create a project/ directory for storing project data
+        mkdir "api/project"
+
+        # Create a download/ directory for storing downloaded projects
+        mkdir "api/download"
+
+        # Create a download/ directory for storing thumbnail images
+        mkdir "api/thumbnail"
+
+        # Fetch project data
+        for id in $ids; do
+          echo "Processing ID: $id"
+          curl -o "$id.json" "https://scratchbox.grady.link/api/project/$id"
+          mv "$id.json" "api/project/"
+
+          echo "Processed, downloading..."
+          curl -o "$id.sb3" "https://scratchbox.grady.link/api/project/$id/download"
+          mv "$id.sb3" "api/download/"
+
+          echo "Downloaded, getting thumbnail..."
+          curl -o "$id.png" "https://scratchbox.grady.link/api/project/$id/thumbnail"
+          mv "$id.png" "api/thumbnail/"
+
+          echo "Done with ID: $id"
+        done
         
         # Create a zip file with a timestamp
         timestamp=$(date +'%Y%m%d%H%M%S')
-        zip -r "fetched_files_$timestamp.zip" fetched_files/
+        zip -r "SBA_$timestamp.zip" api/
 
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
-        git add "fetched_files_$timestamp.zip"
+        git add "SBA_$timestamp.zip"
         git commit -m "Add zip of fetched files: $timestamp"
         git push
