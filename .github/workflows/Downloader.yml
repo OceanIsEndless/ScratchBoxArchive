@@ -27,7 +27,7 @@ jobs:
         echo "Created folder: $folder_name"
 
         # Define URLs
-        urls=("https://example.com/index.html", "scratchbox.grady.link/explore")
+        urls=("https://example.com/index.html" "https://scratchbox.grady.link/explore")
 
         # Download each URL into the timestamped folder
         for url in "${urls[@]}"; do
@@ -48,14 +48,17 @@ jobs:
         # Check if the folder exists and files were downloaded
         echo "Checking folder: $(pwd)/$folder_name"
 
-        # Check if files exist and then add them
-        if [ -d "$folder_name" ]; then
-          git add "$folder_name"/*
-          
-          # Commit and push only if there are changes
-          git diff --cached --quiet || (git commit -m "Add downloaded files to $folder_name" && git push)
-        else
-          echo "No new files to commit."
-        fi
+        # Check for new files
+        git status
+        
+        # Add files (force if necessary)
+        git add -f "$folder_name"/*
+        
+        # Show the files being staged
+        echo "Staging files:"
+        git ls-files --stage
+        
+        # Commit and push only if there are changes
+        git diff --cached --quiet || (git commit -m "Add downloaded files to $folder_name" && git push)
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
