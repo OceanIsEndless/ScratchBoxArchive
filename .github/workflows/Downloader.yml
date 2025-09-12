@@ -23,7 +23,7 @@ jobs:
         mkdir -p "$folder_name"
 
         # Define URLs
-        urls=("https://example.com/file1.txt" "https://example.com/file2.txt")
+        urls=("https://example.com/")
 
         # Download each URL into the timestamped folder
         for url in "${urls[@]}"; do
