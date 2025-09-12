@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '0 * * * *'  # Runs every hour
 
-  workflow-dispatch:
+  workflow_dispatch:
 
 jobs:
   fetch_and_zip:
