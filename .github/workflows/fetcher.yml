@@ -21,11 +21,9 @@ jobs:
         
         # Download the files (replace with your URLs)
         curl -O https://example.com/index.html
-        curl -O https://scratchbox.grady.link/explore
         
         # Move files into the fetched_files directory
-        mv file1.txt fetched_files/
-        mv file2.txt fetched_files/
+        mv index.html fetched_files/
         
         # Create a zip file with a timestamp
         timestamp=$(date +'%Y%m%d%H%M%S')
