@@ -2,7 +2,7 @@ name: Fetch and Zip Files
 
 on:
   schedule:
-    - cron: '5 */4 * * *'  # Runs every hour
+    - cron: '3 */6 * * *'  # Runs every hour
 
   workflow_dispatch:
 
