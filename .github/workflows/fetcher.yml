@@ -1,61 +1,35 @@
-name: Download URLs Every Hour
+name: Fetch and Zip Files
 
 on:
   schedule:
-    # This cron expression will run the workflow every hour on the hour
-    - cron: '0 * * * *'
-  workflow_dispatch: # Allow manual triggers
+    - cron: '0 * * * *'  # Runs every hour
+
+  workflow_dispatch:
 
 jobs:
-  download_urls:
+  fetch_and_zip:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout repository
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
-    # Step 2: Download files from URLs and save to a timestamped folder
-    - name: Download files
+    - name: Fetch and Zip
       run: |
-        # Ensure we're in the right directory (repository root)
-        echo "Current working directory: $(pwd)"
+        # Create a directory to store fetched files
+        mkdir fetched_files
         
-        # Create a unique folder name based on current timestamp
-        folder_name="downloaded_content_$(date +'%Y%m%d_%H%M%S')"
-        mkdir -p "$folder_name"
-        echo "Created folder: $folder_name"
-
-        # Define URLs
-        urls=("https://example.com/index.html", "scratchbox.grady.link/explore", "https://scratchbox.grady.link/api/project/K26OtTN2WDJ9/download")
-
-        # Download each URL into the timestamped folder
-        for url in "${urls[@]}"; do
-          filename=$(basename "$url")
-          echo "Downloading: $url"
-          
-          # Debugging: Show the output of curl
-          curl -L -o "$folder_name/$filename" "$url" && echo "Downloaded $filename successfully" || echo "Failed to download $filename"
-        done
-
-    # Step 3: Commit and push downloaded files
-    - name: Commit and push files
-      run: |
-        # Configure Git
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@github.com"
+        # Download the files
+        curl -J -L -O https://scratchbox.grady.link/api/project/K26OtTN2WDJ9/download
         
-        # Check if the folder exists and files were downloaded
-        echo "Checking folder: $(pwd)/$folder_name"
-
-        # Check if files exist and then add them
-        if [ -d "$folder_name" ]; then
-          git add "$folder_name"/*
-          
-          # Commit and push only if there are changes
-          git diff --cached --quiet || (git commit -m "Add downloaded files to $folder_name" && git push)
-        else
-          echo "No new files to commit."
-        fi
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Move files into the fetched_files directory
+        mv index.html fetched_files/
+        
+        # Create a zip file with a timestamp
+        timestamp=$(date +'%Y%m%d%H%M%S')
+        zip -r "SBA_$timestamp.zip" fetched_files/
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add "SBA_$timestamp.zip"
+        git commit -m "Add zip of fetched files: $timestamp"
+        git push
