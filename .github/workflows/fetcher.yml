@@ -20,7 +20,7 @@ jobs:
         mkdir api
         
         # Download the files (replace with your URLs)
-        curl -i -H "Accept: application/json" -o projects.json https://scratchbox.grady.link/api/projects
+        curl -i -L -H "Accept: application/json" -o projects.json https://scratchbox.grady.link/api/projects
         cat projects.json
 
         # Get the project IDs from the JSON
