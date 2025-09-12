@@ -20,7 +20,48 @@ jobs:
         mkdir api
         
         # Download the files (replace with your URLs)
-        curl -i -L -H "Accept: application/json" -o projects.json https://scratchbox.grady.link/api/projects
+        # Step 1: Install dependencies and playwright
+        sudo apt update
+        sudo apt install -y python3-pip
+        pip3 install playwright
+
+        # Step 2: Install browser binaries (this downloads the necessary browsers)
+        python3 -m playwright install
+        
+        # Step 3: Create and run the headless browser script
+        python3 -c "
+        import json
+        from playwright.sync_api import sync_playwright
+        
+        def handle_response(response):
+          if 'application/json' in response.headers.get('content-type', ''):
+            try:
+              # Parse JSON from response body
+              json_data = response.json()
+              
+              # Save the JSON data to a file
+              with open('projects.json', 'w') as f:
+                json.dump(json_data, f, indent=4)  # Write with pretty indentation
+              print('JSON saved to response_data.json')
+            except Exception as e:
+              print(f'Error parsing JSON: {e}')
+
+          with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)  # You can switch to firefox or webkit
+            page = browser.new_page()
+    
+            # Listen for network responses
+            page.on('response', handle_response)
+    
+            # Visit the page
+            page.goto('https://scratchbox.grady.link/api/projects')  # Replace with your target URL
+    
+            # Optionally, wait for a specific action like a request or selector to trigger
+            page.wait_for_timeout(2000)  # Wait for 2 seconds to capture requests
+    
+            browser.close()
+        "
+
         cat projects.json
 
         # Get the project IDs from the JSON
