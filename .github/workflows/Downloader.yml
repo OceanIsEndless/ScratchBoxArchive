@@ -23,7 +23,7 @@ jobs:
         mkdir -p "$folder_name"
 
         # Define URLs
-        urls=("https://example.com/")
+        urls=("https://example.com/file1.txt" "https://example.com/file2.txt")
 
         # Download each URL into the timestamped folder
         for url in "${urls[@]}"; do
@@ -34,10 +34,14 @@ jobs:
     # Step 3: Commit and push downloaded files
     - name: Commit and push files
       run: |
+        # Configure Git
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
-        git add "$folder_name/*"
-        git commit -m "Add downloaded files to $folder_name"
-        git push
+        
+        # Check if there are any new files to commit
+        git add "$folder_name"/*
+
+        # Commit and push only if there are changes
+        git diff --cached --quiet || (git commit -m "Add downloaded files to $folder_name" && git push)
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
