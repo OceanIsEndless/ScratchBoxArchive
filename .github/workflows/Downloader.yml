@@ -2,7 +2,8 @@ name: Download URLs Every Hour
 
 on:
   schedule:
-    - cron: '0 * * * *' # Run every hour
+    # This cron expression will run the workflow every hour on the hour
+    - cron: '0 * * * *'
   workflow_dispatch: # Allow manual triggers
 
 jobs:
@@ -14,26 +15,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # Step 2: Download files from URLs and save to a timestamped folder
-    - name: Download files
+    # Step 2: Debug the working directory and download files
+    - name: Debug and Download files
       run: |
-        # Print current working directory to ensure we're in the repo
+        # Check current working directory to ensure we are in the repo root
         echo "Current working directory: $(pwd)"
         
-        # Ensure we are in the repository root
-        repo_dir="$(pwd)"
-        echo "Repository directory is: $repo_dir"
-        
+        # Print out the repository folder structure for debug
+        echo "Directory listing of $(pwd):"
+        ls -R
+
         # Create a unique folder name based on current timestamp
-        folder_name="$repo_dir/downloaded_content_$(date +'%Y%m%d_%H%M%S')"
-        echo "Creating folder: $folder_name"
+        folder_name="downloaded_content_$(date +'%Y%m%d_%H%M%S')"
         
-        # Create the folder inside the repo directory
+        # Ensure folder is created inside the repo directory
         mkdir -p "$folder_name"
-        
+        echo "Folder created at: $folder_name"
+
         # Define URLs
-        urls=("https://example.com/index.html" "https://scratchbox.grady.link/explore")
-        
+        urls=("https://example.com/index.html")
+
         # Download each URL into the timestamped folder
         for url in "${urls[@]}"; do
           filename=$(basename "$url")
@@ -41,23 +42,27 @@ jobs:
           curl -L -o "$folder_name/$filename" "$url" && echo "Downloaded $filename successfully" || echo "Failed to download $filename"
         done
 
+        # List the files in the folder to verify
+        echo "Files in $folder_name:"
+        ls "$folder_name"
+
     # Step 3: Commit and push downloaded files
     - name: Commit and push files
       run: |
-        # Configure Git
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@github.com"
+        # Check that we are in the correct directory
+        echo "Current working directory (again for sanity check): $(pwd)"
         
-        # Check if the folder exists and files were downloaded
-        echo "Checking folder: $folder_name"
-        
-        # Add all files forcefully (in the correct path)
+        # Print out the folder structure of the repository again
+        echo "Directory structure of $(pwd):"
+        ls -R
+
+        # Force add files inside the folder (even if untracked or ignored)
         git add -f "$folder_name"/*
-        
-        # Show the files being staged
+
+        # Show staged files to verify
         echo "Staging files:"
         git ls-files --stage
-        
+
         # Commit and push only if there are changes
         git diff --cached --quiet || (git commit -m "Add downloaded files to $folder_name" && git push)
       env:
