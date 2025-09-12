@@ -21,6 +21,7 @@ jobs:
         
         # Download the files (replace with your URLs)
         curl -o projects.json https://scratchbox.grady.link/api/projects
+        cat projects.json
 
         # Get the project IDs from the JSON
         ids=$(jq -r '.[].id' projects.json)
