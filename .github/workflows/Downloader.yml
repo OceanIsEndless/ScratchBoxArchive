@@ -1,0 +1,43 @@
+name: Download URLs Every Hour
+
+on:
+  schedule:
+    # This cron expression will run the workflow every hour on the hour
+    - cron: '0 * * * *'
+  workflow_dispatch: # Allow manual triggers
+
+jobs:
+  download_urls:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout repository
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Step 2: Download files from URLs and save to a timestamped folder
+    - name: Download files
+      run: |
+        # Create a unique folder name based on current timestamp
+        folder_name="downloaded_content_$(date +'%Y%m%d_%H%M%S')"
+        mkdir -p "$folder_name"
+
+        # Define URLs
+        urls=("https://example.com/")
+
+        # Download each URL into the timestamped folder
+        for url in "${urls[@]}"; do
+          filename=$(basename "$url")
+          curl -L -o "$folder_name/$filename" "$url"
+        done
+
+    # Step 3: Commit and push downloaded files
+    - name: Commit and push files
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        git add "$folder_name/*"
+        git commit -m "Add downloaded files to $folder_name"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
