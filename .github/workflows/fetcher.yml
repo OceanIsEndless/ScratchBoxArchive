@@ -18,16 +18,14 @@ jobs:
       run: |
         # Create a directory to store fetched files
         mkdir fetched_files
+        cd "./fetched_files"
         
         # Download the files
         curl -J -L -O https://scratchbox.grady.link/api/project/K26OtTN2WDJ9/download
         
-        # Move files into the fetched_files directory
-        mv index.html fetched_files/
-        
         # Create a zip file with a timestamp
         timestamp=$(date +'%Y%m%d%H%M%S')
-        zip -r "SBA_$timestamp.zip" fetched_files/
+        zip -r "SBA_$timestamp.zip" .
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
         git add "SBA_$timestamp.zip"
