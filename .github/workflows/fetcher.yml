@@ -20,7 +20,7 @@ jobs:
         mkdir fetched_files
         
         # Download the files (replace with your URLs)
-        curl -O https://example.com/
+        curl -O https://example.com/index.html
         curl -O https://scratchbox.grady.link/explore
         
         # Move files into the fetched_files directory
