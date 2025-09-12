@@ -1,108 +1,61 @@
-name: Fetch and Zip Files
+name: Download URLs Every Hour
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
-
-  workflow_dispatch:
+    # This cron expression will run the workflow every hour on the hour
+    - cron: '0 * * * *'
+  workflow_dispatch: # Allow manual triggers
 
 jobs:
-  fetch_and_zip:
+  download_urls:
     runs-on: ubuntu-latest
 
     steps:
+    # Step 1: Checkout repository
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
-    - name: Fetch and Zip
+    # Step 2: Download files from URLs and save to a timestamped folder
+    - name: Download files
       run: |
-        # Create a directory to store fetched files
-        mkdir api
+        # Ensure we're in the right directory (repository root)
+        echo "Current working directory: $(pwd)"
         
-        # Download the files (replace with your URLs)
-        # Step 1: Install dependencies and playwright
-        sudo apt update
-        sudo apt install -y python3-pip
-        pip3 install playwright
+        # Create a unique folder name based on current timestamp
+        folder_name="downloaded_content_$(date +'%Y%m%d_%H%M%S')"
+        mkdir -p "$folder_name"
+        echo "Created folder: $folder_name"
 
-        # Step 2: Install browser binaries (this downloads the necessary browsers)
-        python3 -m playwright install
-        
-        # Step 3: Create and run the headless browser script
-        python3 -c "
-        import json
-        from playwright.sync_api import sync_playwright
-        
-        def handle_response(response):
-          if 'application/json' in response.headers.get('content-type', ''):
-            try:
-              # Parse JSON from response body
-              json_data = response.json()
-              
-              # Save the JSON data to a file
-              with open('projects.json', 'w') as f:
-                json.dump(json_data, f, indent=4)  # Write with pretty indentation
-              print('JSON saved to response_data.json')
-            except Exception as e:
-              print(f'Error parsing JSON: {e}')
+        # Define URLs
+        urls=("https://example.com/index.html", "scratchbox.grady.link/explore", "https://scratchbox.grady.link/api/project/K26OtTN2WDJ9/download")
 
-          with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)  # You can switch to firefox or webkit
-            page = browser.new_page()
-    
-            # Listen for network responses
-            page.on('response', handle_response)
-    
-            # Visit the page
-            page.goto('https://scratchbox.grady.link/api/projects')  # Replace with your target URL
-    
-            # Optionally, wait for a specific action like a request or selector to trigger
-            page.wait_for_timeout(2000)  # Wait for 2 seconds to capture requests
-    
-            browser.close()
-        "
-
-        cat projects.json
-
-        # Get the project IDs from the JSON
-        ids=$(jq -r '.[].id' projects.json)
-        echo "Extracted IDs: $ids"
-        
-        # Move projects.json into the api directory
-        mv projects.json api/
-
-        # Create a project/ directory for storing project data
-        mkdir "api/project"
-
-        # Create a download/ directory for storing downloaded projects
-        mkdir "api/download"
-
-        # Create a download/ directory for storing thumbnail images
-        mkdir "api/thumbnail"
-
-        # Fetch project data
-        for id in $ids; do
-          echo "Processing ID: $id"
-          curl -o "$id.json" "https://scratchbox.grady.link/api/project/$id"
-          mv "$id.json" "api/project/"
-
-          echo "Processed, downloading..."
-          curl -o "$id.sb3" "https://scratchbox.grady.link/api/project/$id/download"
-          mv "$id.sb3" "api/download/"
-
-          echo "Downloaded, getting thumbnail..."
-          curl -o "$id.png" "https://scratchbox.grady.link/api/project/$id/thumbnail"
-          mv "$id.png" "api/thumbnail/"
-
-          echo "Done with ID: $id"
+        # Download each URL into the timestamped folder
+        for url in "${urls[@]}"; do
+          filename=$(basename "$url")
+          echo "Downloading: $url"
+          
+          # Debugging: Show the output of curl
+          curl -L -o "$folder_name/$filename" "$url" && echo "Downloaded $filename successfully" || echo "Failed to download $filename"
         done
-        
-        # Create a zip file with a timestamp
-        timestamp=$(date +'%Y%m%d%H%M%S')
-        zip -r "SBA_$timestamp.zip" api/
 
-        git config user.name "github-actions"
-        git config user.email "github-actions@github.com"
-        git add "SBA_$timestamp.zip"
-        git commit -m "Add zip of fetched files: $timestamp"
-        git push
+    # Step 3: Commit and push downloaded files
+    - name: Commit and push files
+      run: |
+        # Configure Git
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        
+        # Check if the folder exists and files were downloaded
+        echo "Checking folder: $(pwd)/$folder_name"
+
+        # Check if files exist and then add them
+        if [ -d "$folder_name" ]; then
+          git add "$folder_name"/*
+          
+          # Commit and push only if there are changes
+          git diff --cached --quiet || (git commit -m "Add downloaded files to $folder_name" && git push)
+        else
+          echo "No new files to commit."
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
