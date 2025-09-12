@@ -2,7 +2,7 @@ name: Fetch and Zip Files
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
+    - cron: '5 */4 * * *'  # Runs every hour
 
   workflow_dispatch:
 
@@ -16,4 +16,7 @@ jobs:
 
     - name: Fetch and Zip
       run: |
-        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects&capture_outlinks=1&capture_all=1' https://web.archive.org/save
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects' https://web.archive.org/save
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/explore&capture_outlinks=1&capture_all=1' https://web.archive.org/save
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/explore?p=2&capture_outlinks=1&capture_all=1' https://web.archive.org/save
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/explore?p=3&capture_outlinks=1&capture_all=1' https://web.archive.org/save
