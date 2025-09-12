@@ -27,7 +27,7 @@ jobs:
         echo "Created folder: $folder_name"
 
         # Define URLs
-        urls=("https://example.com/index.html" "https://scratchbox.grady.link/explore")
+        urls=("https://example.com/index.html")
 
         # Download each URL into the timestamped folder
         for url in "${urls[@]}"; do
@@ -38,7 +38,7 @@ jobs:
           curl -L -o "$folder_name/$filename" "$url" && echo "Downloaded $filename successfully" || echo "Failed to download $filename"
         done
 
-    # Step 3: Commit and push downloaded files
+    # Step 3: Commit and push downloaded files (force add files)
     - name: Commit and push files
       run: |
         # Configure Git
@@ -48,17 +48,14 @@ jobs:
         # Check if the folder exists and files were downloaded
         echo "Checking folder: $(pwd)/$folder_name"
 
-        # Check for new files
-        git status
-        
-        # Add files (force if necessary)
+        # Forcefully add all files in the new folder (even if untracked or ignored)
         git add -f "$folder_name"/*
-        
-        # Show the files being staged
+
+        # Show the files being staged for commit
         echo "Staging files:"
         git ls-files --stage
         
-        # Commit and push only if there are changes
+        # Commit and push if changes are detected
         git diff --cached --quiet || (git commit -m "Add downloaded files to $folder_name" && git push)
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
