@@ -14,7 +14,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Fetch files and create zip
+    - name: Fetch and Zip
       run: |
         # Create a directory to store fetched files
         mkdir fetched_files
@@ -29,8 +29,6 @@ jobs:
         timestamp=$(date +'%Y%m%d%H%M%S')
         zip -r "fetched_files_$timestamp.zip" fetched_files/
 
-    - name: Commit and push the .zip file
-      run: |
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
         git add "fetched_files_$timestamp.zip"
