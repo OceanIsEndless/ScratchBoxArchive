@@ -2,7 +2,7 @@ name: Fetch and Zip Files
 
 on:
   schedule:
-    - cron: '3 */6 * * *'  # Runs every hour
+    - cron: '3 */6 * * *'  # Runs every six hours (Save Page Now has a hard limit of 4 captures per day on each page, so this is the most that can be done)
 
   workflow_dispatch:
 
