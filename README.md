@@ -26,7 +26,7 @@ Chill.
   * Remember, this is just a backup of ScratchBox.
     * By uploading and sharing your project online, you've already allowed it to be saved by third parties, such as this archive.
   * Removing your project from the Internet Archive is a rather cumbersome process.
-    * There's not much of a point in going through with it unless you have a serious reason (e.g. something illegal or unsafe).
+    * I can remove it, but there's not much of a point in going through with it unless you have a serious reason.
 
 So don't worry about it! This archive is just a backup of ScratchBox, which you've already freely uploaded your project to.
 
