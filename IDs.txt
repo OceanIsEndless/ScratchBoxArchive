@@ -1,1 +1,13 @@
+
+# This is a list of IDs that are manually added to the archive.
+
+# Whenever a backup is made of project data, public project IDs are automatically found in a list provided by the ScratchBox API.
+# However, private projects are unlisted, meaning they cannot be discovered without having their IDs available ahead of time.
+
+# There are some projects that might be set to private, but have been freely shared via link with others for viewing.
+# The IDs of such projects are listed here so that they can be saved in the archive.
+# All other private projects ARE NOT SAVED IN THE ARCHIVE! (To my dismay.)
+# So don't worry. Your private project is 100% secure with ScratchBox.
+# As long as you don't share the link publicly, it will remain hidden.
+
 ODYxnFRm76BO
