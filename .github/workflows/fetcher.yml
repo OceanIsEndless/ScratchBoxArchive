@@ -1,4 +1,4 @@
-name: Fetch and Zip Files
+name: Archive ScratchBox
 
 on:
   schedule:
@@ -14,11 +14,23 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Fetch and Zip
+    - name: Fetch files
       run: |
-        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects' https://web.archive.org/save
-        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects?p=2' https://web.archive.org/save
-        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects?p=3' https://web.archive.org/save
+        echo "Explore Pages:"
         curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/explore&capture_outlinks=1&capture_all=1' https://web.archive.org/save
+        echo ""
         curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/explore?p=2&capture_outlinks=1&capture_all=1' https://web.archive.org/save
+        echo ""
         curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/explore?p=3&capture_outlinks=1&capture_all=1' https://web.archive.org/save
+        echo ""
+        echo ""
+        echo "API Pages:"
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects' https://web.archive.org/save
+        echo ""
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects?p=2' https://web.archive.org/save
+        echo ""
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects?p=3' https://web.archive.org/save
+        echo ""
+        echo ""
+        echo "Other Pages:"
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/postauth&capture_outlinks=1&capture_all=1' https://web.archive.org/save
