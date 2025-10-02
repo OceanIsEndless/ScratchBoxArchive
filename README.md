@@ -22,7 +22,7 @@ Chill.
 
 * If your project is private and you have not shared its link publicly, it is not here.
   * Private projects are inaccessible without their link.
-* If your project is public or you have shared it with others, then it _might_ be here. BUT:
+* If your project is public or you have shared its link with others, then it _might_ be here. BUT:
   * Remember, this is just a backup of ScratchBox.
     * By uploading and sharing your project online, you've already allowed it to be saved by third parties, such as this archive.
   * Removing your project from the Internet Archive is a rather cumbersome process.
@@ -37,7 +37,9 @@ I'm not really sure yet. But currently, the rules on the ScratchBox website **on
 > [!NOTE]
 > I haven't really asked if anyone minds about this archive existing... sooooo if you mind then I can stop and/or take it down... I was kinda planning ahead for when ScratchBox gets bigger (an archive could be more important then), but I feel that it may seem weird for me to be archiving projects or user profiles at this point in time. I just wanted to make sure it stuck around. You never know when such things can go poof...
 >
-> Also, if it turns out that it ***is*** fine for this archive to exist **but** you *really* don't want your project here then I can of course remove it (just ask). It'll take me a little bit but I'll understand if you don't want your project(s) to be available anymore at some point in the future, and it's not like I'm going to stop you. But do remember that this is simply an archive, and the point of an archive is to archive stuff, so the less stuff removed from the archive, the better. I.e. be absolutely sure that you want it gone from the Internet forever (to the extent possible) before asking for it to be removed.
+> Also, if it turns out that it ***is*** fine for this archive to exist **but** you *really* don't want your project here then I can of course remove it (just ask). It'll take me a little bit but I'll understand if you don't want your project(s) to be available anymore at some point in the future, and it's not like I'm going to stop you.
+>
+> But do remember that this is simply an archive, and the point of an archive is to archive stuff, so the less stuff removed from the archive, the better. I.e. be absolutely sure that you want it gone from the Internet forever (to the extent possible) before asking for it to be removed.
 
 ## Disclaimer
 
