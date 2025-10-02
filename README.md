@@ -30,6 +30,16 @@ Chill.
 
 So don't worry about it! This archive is just a backup of ScratchBox, which you've already freely uploaded your project to. Nothing bad is going to happen as a result of your project being available in an archived state.
 
+## Is this allowed?
+
+I'm not really sure yet. But currently, the rules on the ScratchBox website **only prohibit *bots***, such as spam comment bots and whatnot. The API is perfectly free to use, though if it is free to use for this purpose I have yet to find confirmation.
+
+> [!NOTE]
+> I haven't really asked if anyone minds about this archive existing... sooooo if you mind then I can stop and/or take it down... I was kinda planning ahead for when ScratchBox gets bigger (an archive could be more important then), but I feel that it may seem weird for me to be archiving projects or user profiles at this point in time. I just wanted to make sure it stuck around. You never know when such things can go poof...
+>
+> Also, if it turns out that it ***is*** fine for this archive to exist **but** you *really* don't want your project here then I can of course remove it (just ask). It'll take me a little bit but I'll understand if you don't want your project(s) to be available anymore at some point in the future, and it's not like I'm going to stop you. But do remember that this is simply an archive, and the point of an archive is to archive stuff, so the less stuff removed from the archive, the better. I.e. be absolutely sure that you want it gone from the Internet forever (to the extent possible) before asking for it to be removed.
+
 ## Disclaimer
 
 This is not endorsed by ScratchBox, Scratch Everywhere!, or their respective contributors. It's just an archive.
+
