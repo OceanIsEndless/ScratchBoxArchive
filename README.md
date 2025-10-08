@@ -1,6 +1,6 @@
 # ScratchBox Archive
 
-This repo periodically saves all publicly available user-generated content from [ScratchBox](https://github.com/ScratchEverywhere/ScratchBox) in the [Internet Archive](https://archive.org/search?query=creator%3A%22ScratchBox%22&sort=-publicdate) for historical purposes.
+This repo periodically saves all publicly available user-generated content from [ScratchBox](https://github.com/ScratchEverywhere/ScratchBox) in the [Internet Archive](https://archive.org/details/@endless_ocean/lists/1/scratchbox-data-backups?sort=-date) for historical purposes.
 
 ## Why?
 
@@ -14,7 +14,7 @@ The following reasons are probably good ones:
 ## How do I use this?
 
 * If you want to see what the ScratchBox website looked like at a previous date, use the [Wayback Machine](https://web.archive.org/https://scratchbox.grady.link/explore).
-* If you want to download older versions of projects or any relevant metadata, see the [data backups](https://archive.org/search?query=creator%3A%22ScratchBox%22&sort=-publicdate).
+* If you want to download older versions of projects or any relevant metadata, see the [data backups](https://archive.org/details/@endless_ocean/lists/1/scratchbox-data-backups?sort=-date).
 
 ## I don't want my project here!
 
