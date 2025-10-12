@@ -36,3 +36,5 @@ jobs:
         curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/postauth&capture_outlinks=1&capture_all=1' https://web.archive.org/save
         echo ""
         curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://status.scratchbox.grady.link&capture_outlinks=1&capture_all=1' https://web.archive.org/save
+        echo ""
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/scratchbox.unistore&capture_outlinks=1&capture_all=1' https://web.archive.org/save
