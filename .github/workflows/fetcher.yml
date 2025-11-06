@@ -23,6 +23,10 @@ jobs:
         echo ""
         curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/explore?p=3&capture_outlinks=1&capture_all=1' https://web.archive.org/save
         echo ""
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/explore?p=4&capture_outlinks=1&capture_all=1' https://web.archive.org/save
+        echo ""
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/explore?p=5&capture_outlinks=1&capture_all=1' https://web.archive.org/save
+        echo ""
         echo ""
         echo "API Pages:"
         curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects' https://web.archive.org/save
@@ -30,6 +34,10 @@ jobs:
         curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects?p=2' https://web.archive.org/save
         echo ""
         curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects?p=3' https://web.archive.org/save
+        echo ""
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects?p=4' https://web.archive.org/save
+        echo ""
+        curl -X POST -H "Accept: application/json" -H "Authorization: LOW ${{ secrets.myaccesskey }}:${{ secrets.mysecret }}" -d'url=https://scratchbox.grady.link/api/projects?p=5' https://web.archive.org/save
         echo ""
         echo ""
         echo "Other Pages:"
