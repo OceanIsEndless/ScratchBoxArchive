@@ -30,6 +30,20 @@ Chill.
 
 So don't worry about it! This archive is just a backup of ScratchBox, which you've already freely uploaded your project to. Nothing bad is going to happen as a result of your project being available in an archived state.
 
+## How does this work?
+
+### Website
+
+A GitHub Action in this repo is scheduled to send requests to the Internet Archive to save pages on the ScratchBox website approximately every six hours. This helps keep a regularly updated record of what was on the website at any given time.
+
+### Projects
+
+Backups of ScratchBox projects and relevant data are created using an automated script (Apple Shortcut) on my computer. It goes through a [list](https://scratchbox.grady.link/api/projects) provided by the ScratchBox API to discover publicly available projects and download them into organized folders. It puts all the data into a .zip file, which I then upload to the Internet Archive.
+
+> [!NOTE]
+>
+> I have not fully automated the process of backing up the projects, so data backups may be more sparse and far between. Uploading them manually works in the short-term, but if ScratchBox gets bigger then I may not be able to keep up. 🤔
+
 ## Disclaimer
 
 This is not endorsed by ScratchBox, Scratch Everywhere!, or their respective contributors. It's just an archive.
